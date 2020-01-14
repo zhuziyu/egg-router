@@ -29,18 +29,28 @@ export default (app: Application) => {
 ```typescript
 // app/controller
 import { Controller } from 'egg';
-import { Get, Use, Prefix } from '@zhuziyu/egg-router';
+import { All, Body, Get, Params, Prefix, Query, Use } from '../../../';
 
 @Prefix('/api')
 export default class HomeController extends Controller {
 
-  @Use([ 'middlewareName' ])  // 使用中间件。传入需要应用到该路由级别的中间件列表
-  @Get('/') // 将该函数注册为path: /api ; method: GET 的api处理函数
-  async index() {
-    const { ctx } = this;
-    ctx.body = await ctx.service.test.sayHi('egg');
+  @Use([ 'hello' ])
+  @All('/:id')
+  async index(@Body('title')body, @Query('code')query, @Params('id')params) {
+
+    this.ctx.logger.debug(body, query, params);
+
+    this.ctx.body = 'Hello World!';
   }
+
+  @Get('/test/:id')
+  async test(ctx) {
+    this.ctx.logger.info(ctx);
+    this.ctx.body = 'YES';
+  }
+
 }
 
-// 完成，访问 `http://host:port/api` 即可
+
+// 完成，访问 `http://host:port/api/:id` 即可
 ```
