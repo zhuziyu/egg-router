@@ -4,7 +4,7 @@ node_js:
   - '10'
 install:
   - npm i
-  - cd test && npmi
+  - cd test && ls && npm i
 script:
   - cd test && npm test
   - npm run build
