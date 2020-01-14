@@ -7,6 +7,6 @@ install:
   - cd test && npm i
 script:
   - cd test && npm test
-  - ls -a
+  - cd .. && ls -a
 after_script:
   - echo "build finish"
