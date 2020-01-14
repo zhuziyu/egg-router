@@ -3,15 +3,24 @@
  */
 
 import { Controller } from 'egg';
-import { Get, Prefix, Use } from '../../../';
+import { All, Body, Get, Params, Prefix, Query, Use } from '../../../';
 
 @Prefix('/api')
 export default class HomeController extends Controller {
 
   @Use([ 'hello' ])
-  @Get('/:id')
-  async index() {
+  @All('/:id')
+  async index(@Body('title')body, @Query('code')query, @Params('id')params) {
+
+    this.ctx.logger.debug(body, query, params);
+
     this.ctx.body = 'Hello World!';
+  }
+
+  @Get('/test/:id')
+  async test(ctx) {
+    this.ctx.logger.info(ctx);
+    this.ctx.body = 'YES';
   }
 
 }

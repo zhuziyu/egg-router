@@ -6,3 +6,5 @@ export const prefixKey = Symbol('Decorator#Prefix');
 export const httpMapKey = Symbol('Decorator#HttpMapping');
 
 export const middlewareKey = Symbol('Decorator#middleware');
+
+export const paramKey = Symbol('Decorator#param');

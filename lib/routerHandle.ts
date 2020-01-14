@@ -3,7 +3,33 @@
  */
 import { Application, Context } from 'egg';
 import loadController from '../util/loadController';
-import { httpMapKey, middlewareKey, prefixKey } from './metaKeys';
+import { httpMapKey, middlewareKey, paramKey, prefixKey } from './metaKeys';
+
+function calculateParams(controller, property, ctx: Context) {
+  const needParams: any[] = Reflect.getOwnMetadata(paramKey, controller.prototype, property) || [];
+  const params: any[] = Array(needParams.length);
+  for (const { key, type, index } of needParams) {
+    switch (type) {
+      case 'body':
+        params[index] = key ? ctx.request.body[key] : ctx.request.body;
+        break;
+      case 'query':
+        params[index] = key ? ctx.request.query[key] : ctx.request.query;
+        break;
+      case 'params':
+        params[index] = key ? ctx.params[key] : ctx.params;
+        break;
+      default:
+        throw new Error(`no ${type} type`);
+    }
+  }
+
+  if (!params.length) {
+    params.push(ctx);
+  }
+
+  return params;
+}
 
 /**
  * 根据routerConfMap配置文件中的key -> controller原型对象的construct构造函数，创建controller的实例。
@@ -16,7 +42,7 @@ function generatorRouterCallback(Controller, property) {
   return async (ctx: Context) => {
 
     const instance = new Controller(ctx);
-    await instance[property](ctx);
+    await instance[property](...calculateParams(Controller, property, ctx));
 
   };
 
@@ -51,7 +77,7 @@ export default async (app: Application) => {
   for (const controller of controllers) {
 
     const controllerPrefix = Reflect.getMetadata(prefixKey, controller) || '';
-    app.logger.debug(`[PREFIX-${controller.name}]`, controllerPrefix);
+    app.logger.debug(`[${controller.name}-PREFIX]`, controllerPrefix);
     // 遍历controller的所有成员
     for (const key in controller.prototype) {
       if (!controller.prototype.hasOwnProperty(key)) {
@@ -64,16 +90,18 @@ export default async (app: Application) => {
       const attachMiddleware: string[] = Reflect.getMetadata(middlewareKey, controller.prototype, key) || [];
       const routerConfig = Reflect.getMetadata(httpMapKey, controller.prototype, key);
 
-      app.logger.debug(`[ROUTER-${controller.name}-${key}]`, routerConfig);
-      app.logger.debug(`[MD-${controller.name}-${key}]`, attachMiddleware);
+      app.logger.debug(`[${controller.name}-ROUTER-${key}]`, routerConfig);
+      app.logger.debug(`[${controller.name}-MD-${key}]`, attachMiddleware);
 
       if (!routerConfig) {
         continue;
       }
 
-      const middlewareList = calculateMiddleware(attachMiddleware, app);
-
-      router[routerConfig.method](controllerPrefix + routerConfig.path, ...middlewareList, generatorRouterCallback(controller, key));
+      router[routerConfig.method](
+        controllerPrefix + routerConfig.path, // router path
+        ...calculateMiddleware(attachMiddleware, app), // router level middleware
+        generatorRouterCallback(controller, key), // controller handle function
+      );
     }
   }
 };
