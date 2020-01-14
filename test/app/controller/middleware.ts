@@ -5,11 +5,11 @@
 import { Controller } from 'egg';
 import { Get, Prefix, Use } from '../../../index';
 
-@Prefix('/api')
+@Prefix('/api/test')
 export default class MiddlewareController extends Controller {
 
 
-  @Get('/middleware/check')
+  @Get('/middleware')
   @Use([ 'hello' ])
   async check() {
     const { ctx } = this;

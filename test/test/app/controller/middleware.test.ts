@@ -11,7 +11,7 @@ describe('test/app/controller/middleware.test.ts', () => {
 
   it('hello middleware should work', async () => {
     const result = await app.httpRequest()
-      .get('/api/middleware/check')
+      .get('/api/test/middleware')
       .expect(200);
     assert.ok(result.text === 'it work!');
   });
