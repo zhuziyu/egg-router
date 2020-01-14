@@ -1,0 +1,20 @@
+{
+  "name": "egg-router-test",
+  "version": "1.0.0",
+  "description": "egg-router test dir",
+  "main": "index.js",
+  "egg": {
+    "typescript": true,
+    "declarations": true
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "egg-bin": "^4.14.1",
+    "egg-ts-helper": "^1.25.6",
+    "egg": "^2.26.0"
+  }
+}

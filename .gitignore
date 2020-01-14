@@ -3,3 +3,8 @@ node_modules
 package-lock.json
 dist
 *.d.ts
+
+test/logs
+test/run
+test/typings
+test/package-lock.json
