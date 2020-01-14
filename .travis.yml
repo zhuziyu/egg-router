@@ -1,0 +1,12 @@
+sudo: false
+language: node_js
+node_js:
+  - '10'
+install:
+  - npm i
+  - cd test && npmi
+script:
+  - cd test && npm test
+  - npm run build
+after_script:
+  - echo "build finish"
