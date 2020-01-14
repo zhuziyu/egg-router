@@ -8,6 +8,8 @@ export default (_config, _app) => {
     ctx.logger.info('[CONFIG]', JSON.stringify(_config));
     ctx.logger.info('[APP_NAME]', _app.name);
 
+    ctx.attachMsg = 'it work!';
+
     await next();
   };
 };

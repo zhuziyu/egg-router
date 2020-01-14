@@ -8,16 +8,21 @@
     "declarations": true
   },
   "scripts": {
-    "test": "test"
+    "test": "egg-bin test",
+    "start": "egg-bin dev"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "egg-bin": "^4.14.1",
-    "egg-ts-helper": "^1.25.6",
+    "@types/node": "^10.17.6",
+    "@types/supertest": "^2.0.0",
     "egg": "^2.26.0",
+    "egg-bin": "^4.14.1",
+    "egg-mock": "^3.25.0",
+    "egg-ts-helper": "^1.25.6",
+    "reflect-metadata": "^0.1.13",
     "tslib": "^1.10.0",
-    "typescript": "^3.7.4",
-    "reflect-metadata": "^0.1.13"
-  }
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {}
 }
