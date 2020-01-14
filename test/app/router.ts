@@ -6,6 +6,7 @@ import { Application } from 'egg';
 
 export default (app: Application) => {
 
-  RouterHandle(app);
+  RouterHandle(app)
+    .catch(e => app.logger.error(e));
 
 };
