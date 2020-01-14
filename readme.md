@@ -1,7 +1,11 @@
-[![NPM version][npm-image]][npm-url]
+[![NPM version][npm-image]][npm-url] [![Build Status][travis-img]][travis-url]
 
 [npm-image]: https://img.shields.io/npm/v/@zhuziyu/egg-router.svg?style=flat-square  
 [npm-url]: https://www.npmjs.com/package/@zhuziyu/egg-router
+
+[travis-img]: https://api.travis-ci.com/zhuziyu/egg-router.svg?branch=master
+[travis-url]: https://travis-ci.com/zhuziyu/egg-router
+
 
 egg router decorator -> 使用注解(decorator)定义API，简化路由配置。  
 

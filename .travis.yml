@@ -4,9 +4,9 @@ node_js:
   - '10'
 install:
   - npm i
-  - cd test && ls && npm i
+  - cd test && npm i
 script:
   - cd test && npm test
-  - npm run build
+  - cd ../ && npm run build
 after_script:
   - echo "build finish"
