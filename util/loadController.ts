@@ -8,7 +8,7 @@ export default async function(baseDir: string) {
   const files = await fs.readdir(path.join(baseDir, './app/controller'));
   const controllers: any[] = [];
   for (const file of files) {
-    const exportObj = await import(path.join(path.join(baseDir, './app/controller', file)));
+    const exportObj = await import(path.join(baseDir, './app/controller', file));
     controllers.push(exportObj.default);
   }
   return controllers;
