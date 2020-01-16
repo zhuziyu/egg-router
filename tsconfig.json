@@ -20,10 +20,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "inlineSourceMap": true,
-    "importHelpers": true,
-    "outDir": "./dist",
-    "declaration": true,
-    "declarationDir": "./"
+    "declaration": true
   },
   "exclude": [
     "node_modules*",
