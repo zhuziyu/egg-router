@@ -1,10 +1,11 @@
 /**
  * Created by 清辉 on 2020/1/9 19:18
  */
+import { Application, Context } from 'egg';
 import loadController from '../util/loadController';
 import { httpMapKey, middlewareKey, paramKey, prefixKey } from './metaKeys';
 
-function calculateParams(controller, property, ctx) {
+function calculateParams(controller, property, ctx: Context) {
   const needParams: any[] = Reflect.getOwnMetadata(paramKey, controller.prototype, property) || [];
   const params: any[] = Array(needParams.length);
   for (const { key, type, index } of needParams) {
@@ -38,7 +39,7 @@ function calculateParams(controller, property, ctx) {
  */
 function generatorRouterCallback(Controller, property) {
 
-  return async ctx => {
+  return async (ctx: Context) => {
 
     const instance = new Controller(ctx);
     await instance[property](...calculateParams(Controller, property, ctx));
@@ -52,7 +53,7 @@ function generatorRouterCallback(Controller, property) {
  * @param attachMiddleware 需要挂载的中间件名称列表
  * @param app application实例
  */
-function calculateMiddleware(attachMiddleware: string[], app): any[] {
+function calculateMiddleware(attachMiddleware: string[], app: Application): any[] {
   const middlewareList: any[] = [];
 
   for (const middlewareName of attachMiddleware) {
@@ -67,7 +68,7 @@ function calculateMiddleware(attachMiddleware: string[], app): any[] {
 }
 
 
-export default async app => {
+export default async (app: Application) => {
 
   const { router } = app;
 
