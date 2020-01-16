@@ -68,7 +68,7 @@ function calculateMiddleware(attachMiddleware: string[], app: Application): any[
 }
 
 
-export default async (app: Application) => {
+export const RouterHandle = async (app: Application) => {
 
   const { router } = app;
 

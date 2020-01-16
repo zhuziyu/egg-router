@@ -3,16 +3,9 @@
  */
 import 'reflect-metadata';
 
-import { Get, Post, Put, Delete, Head, Options, Patch, All } from './lib/decorators/httpMapping';
-import { Body, Query, Params } from './lib/decorators/httpParam';
-import { Use } from './lib/decorators/middleware';
-import { Prefix } from './lib/decorators/controllerPrefix';
-import RouterHandle from './lib/routerHandle';
+export * from './lib/decorators/httpMapping';
+export * from './lib/decorators/httpParam';
+export * from './lib/decorators/middleware';
+export * from './lib/decorators/controllerPrefix';
 
-export {
-  RouterHandle,
-  Prefix,
-  Use,
-  Get, Post, Put, Delete, Head, Options, Patch, All,
-  Body, Query, Params,
-};
+export * from './lib/routerHandle';
