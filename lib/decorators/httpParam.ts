@@ -3,7 +3,7 @@
  */
 import { paramKey } from '../metaKeys';
 
-interface HttpParam {
+export interface IHttpParam {
   key: string | undefined;
   type: string;
   index: number;
@@ -12,7 +12,7 @@ interface HttpParam {
 function AllParam(type: string, key?: string) {
 
   return (target: any, propertyKey: string, paramIndex: number) => {
-    const existParams: HttpParam[] = Reflect.getOwnMetadata(paramKey, target, propertyKey) || [];
+    const existParams: IHttpParam[] = Reflect.getOwnMetadata(paramKey, target, propertyKey) || [];
 
     existParams.push({ key, type, index: paramIndex });
 
@@ -31,4 +31,8 @@ export function Body(key?: string) {
 
 export function Params(key?: string) {
   return AllParam('params', key);
+}
+
+export function getDefineParam(target: any, propertyKey: string): IHttpParam[] {
+  return Reflect.getOwnMetadata(paramKey, target, propertyKey) || [];
 }

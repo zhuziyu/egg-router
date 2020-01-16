@@ -3,6 +3,10 @@
  */
 import { prefixKey } from '../metaKeys';
 
+export function getPrefix(target: any): string {
+  return Reflect.getMetadata(prefixKey, target) || '';
+}
+
 export function Prefix(prefix: string) {
   return function classDecorator<T extends { new(...args: any[]): {} }>(constructor: T) {
     Reflect.defineMetadata(prefixKey, prefix, constructor);

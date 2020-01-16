@@ -14,9 +14,13 @@ const HttpMethod = {
 /**
  * 传入装饰器工厂的参数类型
  */
-interface HandlerMetaData {
+export interface IRouterConf {
   path: string;
   method: string;
+}
+
+export function getRouterConf(target: any, propertyKey: string): IRouterConf {
+  return Reflect.getMetadata(httpMapKey, target, propertyKey);
 }
 
 
@@ -24,7 +28,7 @@ interface HandlerMetaData {
  * 定义一个装饰器工厂函数，返回一个用来装饰Controller类的方法装饰器
  * @param config {path,method}
  */
-function mappingRequest(config: HandlerMetaData) {
+function mappingRequest(config: IRouterConf) {
 
   return (target: any, property: string, descriptor: PropertyDescriptor) => {
     Reflect.defineMetadata(httpMapKey, config, target, property);

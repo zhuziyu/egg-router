@@ -3,10 +3,12 @@
  */
 import { Application, Context } from 'egg';
 import loadController from '../util/loadController';
-import { httpMapKey, middlewareKey, paramKey, prefixKey } from './metaKeys';
+import { getRouterConf } from './decorators/httpMapping';
+import { getPrefix } from './decorators/controllerPrefix';
+import { getUseMiddleware } from './decorators/middleware';
+import { getDefineParam } from './decorators/httpParam';
 
-function calculateParams(controller, property, ctx: Context) {
-  const needParams: any[] = Reflect.getOwnMetadata(paramKey, controller.prototype, property) || [];
+function calculateParams(needParams, ctx: Context) {
   const params: any[] = Array(needParams.length);
   for (const { key, type, index } of needParams) {
     switch (type) {
@@ -36,13 +38,15 @@ function calculateParams(controller, property, ctx: Context) {
  * 返回一个中间件函数
  * @param Controller controller类
  * @param property 类的方法名
+ * @param needParams 方法注解里面需要传入的参数
  */
-function generatorRouterCallback(Controller, property) {
+function generatorRouterCallback(Controller, property, needParams) {
+
 
   return async (ctx: Context) => {
 
     const instance = new Controller(ctx);
-    await instance[property](...calculateParams(Controller, property, ctx));
+    await instance[property](...calculateParams(needParams, ctx));
 
   };
 
@@ -76,7 +80,8 @@ export const RouterHandle = async (app: Application) => {
   const controllers = await loadController(app.config.baseDir);
   for (const controller of controllers) {
 
-    const controllerPrefix = Reflect.getMetadata(prefixKey, controller) || '';
+
+    const controllerPrefix = getPrefix(controller);
     app.logger.debug(`[${controller.name}-PREFIX]`, controllerPrefix);
     // 遍历controller的所有成员
     for (const key in controller.prototype) {
@@ -87,8 +92,9 @@ export const RouterHandle = async (app: Application) => {
         continue;
       }
 
-      const attachMiddleware: string[] = Reflect.getMetadata(middlewareKey, controller.prototype, key) || [];
-      const routerConfig = Reflect.getMetadata(httpMapKey, controller.prototype, key);
+      const attachMiddleware: string[] = getUseMiddleware(controller.prototype, key);
+      const routerConfig = getRouterConf(controller.prototype, key);
+      const needParams = getDefineParam(controller.prototype, key);
 
       app.logger.debug(`[${controller.name}-ROUTER-${key}]`, routerConfig);
       app.logger.debug(`[${controller.name}-MD-${key}]`, attachMiddleware);
@@ -100,7 +106,7 @@ export const RouterHandle = async (app: Application) => {
       router[routerConfig.method](
         controllerPrefix + routerConfig.path, // router path
         ...calculateMiddleware(attachMiddleware, app), // router level middleware
-        generatorRouterCallback(controller, key), // controller handle function
+        generatorRouterCallback(controller, key, needParams), // controller handle function
       );
     }
   }
