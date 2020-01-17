@@ -3,7 +3,8 @@
  */
 
 import { Controller } from 'egg';
-import { Body, Params, Post, Prefix, Query } from '../../../';
+import { ApiDescription, ApiTitle, Body, Params, Post, Prefix, Query } from '../../../';
+import { CreateHomeDto } from '../dto/create-home.dto';
 
 @Prefix('/api/test')
 export default class HomeController extends Controller {
@@ -17,8 +18,10 @@ export default class HomeController extends Controller {
 
   }
 
+  @ApiTitle('1abc')
+  @ApiDescription('2emm')
   @Post('/params/item/:code')
-  async testParamsItem(@Body('code') body, @Query('code') query, @Params('code') params) {
+  async testParamsItem(@Body('code') body: CreateHomeDto, @Query('code') query, @Params('code') params) {
 
     this.ctx.body = {
       body, query, params,

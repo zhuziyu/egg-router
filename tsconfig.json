@@ -11,8 +11,6 @@
     "allowJs": false,
     "pretty": true,
     "noEmitOnError": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "strictPropertyInitialization": false,

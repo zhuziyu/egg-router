@@ -8,4 +8,7 @@ export * from './lib/decorators/httpParam';
 export * from './lib/decorators/middleware';
 export * from './lib/decorators/controllerPrefix';
 
+export * from './apidoc/decorators/api-property';
+export * from './apidoc/decorators/api';
+
 export * from './lib/routerHandle';
