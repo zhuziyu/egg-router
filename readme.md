@@ -7,21 +7,21 @@
 [travis-url]: https://travis-ci.com/zhuziyu/egg-router
 
 
-egg router decorator -> 使用注解(decorator)定义API，简化路由配置。  
+🥚 egg router decorator util -> simple way to define api router and generate apidoc 
 
-!! 注意： 本插件只支持typescript版本的egg项目，js版本的暂未测试
+!! Warning： this package only support typescript.
 
-## 安装
+## Install
 ```shell
-npm i @zhuziyu/egg-router
+npm i egg-router-util
 ```
 
-## 使用方法
-在`router`入口中注入
+## Usage
+在`router`入口中接管路由处理函数
 ```typescript
 // app/router.ts
 import { Application } from 'egg';
-import { RouterHandle } from '@zhuziyu/egg-router';
+import { RouterHandle } from 'egg-router-util';
 
 export default (app: Application) => {
   RouterHandle(app);
@@ -33,7 +33,7 @@ export default (app: Application) => {
 ```typescript
 // app/controller
 import { Controller } from 'egg';
-import { All, Body, Get, Params, Prefix, Query, Use } from '../../../';
+import { All, Body, Get, Params, Prefix, Query, Use } from 'egg-router-util';
 
 @Prefix('/api')
 export default class HomeController extends Controller {
@@ -56,5 +56,5 @@ export default class HomeController extends Controller {
 }
 
 
-// 完成，访问 `http://host:port/api/:id` 即可
+// done 
 ```
