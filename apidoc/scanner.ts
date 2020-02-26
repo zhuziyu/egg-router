@@ -83,5 +83,5 @@ export const Scanner = (target: any, propertyKey: string, routerConf: IRouterCon
 };
 
 export const ScanFinish = () => {
-  console.log(JSON.stringify(allApiData));
+  // console.log(JSON.stringify(allApiData));
 };
