@@ -3,12 +3,21 @@
  */
 import 'reflect-metadata';
 
-export * from './lib/decorators/httpMapping';
-export * from './lib/decorators/httpParam';
-export * from './lib/decorators/middleware';
-export * from './lib/decorators/controllerPrefix';
+import { Get, Post, Put, Delete, Head, Options, Patch, All } from './lib/decorators/httpMapping';
+import { Body, Query, Params } from './lib/decorators/httpParam';
+import { Use } from './lib/decorators/middleware';
+import { Prefix } from './lib/decorators/controllerPrefix';
+import { RouterHandle } from './lib/routerHandle';
 
-export * from './apidoc/decorators/api-property';
-export * from './apidoc/decorators/api';
+import { ApiOptionProperty, ApiProperty } from './apidoc/decorators/api-property';
+import { ApiDescription, ApiTitle, ApiSuccessExample } from './apidoc/decorators/api';
 
-export * from './lib/routerHandle';
+export {
+  RouterHandle,
+  Prefix,
+  Use,
+  Get, Post, Put, Delete, Head, Options, Patch, All,
+  Body, Query, Params,
+  ApiOptionProperty, ApiProperty,
+  ApiDescription, ApiTitle, ApiSuccessExample,
+};
