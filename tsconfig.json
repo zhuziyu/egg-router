@@ -18,7 +18,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "inlineSourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "outDir": "./dist",
+    "declarationDir": "./dist"
   },
   "exclude": [
     "node_modules*",

@@ -8,3 +8,4 @@ test/logs
 test/run
 test/typings
 test/package-lock.json
+api

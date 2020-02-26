@@ -1,11 +1,12 @@
 {
   "name": "egg-router-util",
-  "version": "1.1.8",
+  "version": "1.1.13",
   "description": "egg router decorator util -> simple way to define api router and generate apidoc",
   "scripts": {
-    "clean": "ets clean && rimraf *.d.ts lib/*.d.ts util/*.d.ts",
+    "clean": "ets clean && rimraf dist",
     "prebuild": "npm run clean",
-    "build": "tsc"
+    "build": "tsc",
+    "postbuild": "cp package.json ./dist"
   },
   "repository": {
     "type": "git",
