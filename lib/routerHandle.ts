@@ -12,7 +12,7 @@ import * as Koa from 'koa';
 const router = new KoaRouter();
 
 
-export const RouterHandle = (controllerDir: string, app: Koa, middlewares: any, logging = console.log) => {
+export const RouterHandle = (controllerDir: string, app: Koa, middlewares: any, logging: ((...args) => void) = console.debug) => {
 
   // 加载所有controller类
   const controllers = loadController(controllerDir);
