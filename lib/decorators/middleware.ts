@@ -7,7 +7,7 @@ export function getUseMiddleware(target: any, propertyKey: string): string[] {
   return Reflect.getMetadata(middlewareKey, target, propertyKey) || [];
 }
 
-export function Use(middleware: string[]) {
+export function Use(middleware: any[]) {
 
   return (target: any, property: string, descriptor: PropertyDescriptor) => {
     Reflect.defineMetadata(middlewareKey, middleware, target, property);
