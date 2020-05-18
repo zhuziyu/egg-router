@@ -1,7 +1,7 @@
 {
-  "name": "egg-router-util",
-  "version": "1.1.13",
-  "description": "egg router decorator util -> simple way to define api router and generate apidoc",
+  "name": "koa-router-util",
+  "version": "1.1.14-koa",
+  "description": "koa router decorator util -> simple way to define api router",
   "scripts": {
     "clean": "ets clean && rimraf dist",
     "prebuild": "npm run clean",
@@ -15,9 +15,12 @@
   "author": "zhuziyu",
   "license": "MIT",
   "dependencies": {
+    "@koa/router": "^8.0.8",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@types/koa": "^2.11.3",
+    "@types/koa__router": "^8.0.2",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.24",
     "egg": "^2.26.0",
@@ -29,9 +32,7 @@
     "typescript": "^3.7.4"
   },
   "peerDependencies": {
-    "reflect-metadata": "^0.1.13",
-    "egg": "^2.26.0",
-    "tslib": "^1.10.0"
+    "reflect-metadata": "^0.1.13"
   },
   "engines": {
     "node": ">=10.10.0"
