@@ -1,6 +1,6 @@
 {
   "name": "koa-router-util",
-  "version": "1.1.16-koa",
+  "version": "1.1.17-koa",
   "description": "koa router decorator util -> simple way to define api router",
   "scripts": {
     "clean": "ets clean && rimraf dist",
