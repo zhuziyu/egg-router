@@ -18,6 +18,7 @@ interface RouterHandleOptions {
   useMiddleware?: any[];
   logging?: (...args) => void;
   permissionMiddleware?: (permission) => ((ctx, next) => void);
+  permissionList?: any[];
 }
 
 // controllerDir: string, app: Koa, useMiddleware: any[] = [], logging: ((...args) => void) = console.debug
@@ -27,6 +28,7 @@ export const RouterHandle = ({
   useMiddleware = [],
   logging = console.debug,
   permissionMiddleware,
+  permissionList,
 }: RouterHandleOptions) => {
 
   if (Array.isArray(useMiddleware)) {
@@ -65,24 +67,33 @@ export const RouterHandle = ({
       if (!routerConfig) {
         continue;
       }
+      const { method, path: apiPath } = routerConfig;
+      const apiFullPath = controllerPrefix + apiPath;
 
-      if (routerPermission && routerPermission.name) {
+      if (routerPermission && routerPermission.roles) {
         if (typeof permissionMiddleware !== 'function') {
           return logging('[RouterMapping] [WARNING] 权限验证的中间件配置有误，请检查');
         }
-        attachMiddleware.unshift(permissionMiddleware(routerPermission.name));
+
+        attachMiddleware.unshift(permissionMiddleware(routerPermission.roles));
+
+
+        if (!permissionList) continue;
+
+        const { roles, name, group = controller.name, groupName } = routerPermission;
+
+        permissionList.push({ roles, name: name || roles, group, api: apiFullPath, groupName: groupName || group });
       }
 
-      const { method, path: apiPath } = routerConfig;
       router[method](
-        controllerPrefix + apiPath,
+        apiFullPath,
         ...attachMiddleware,
         ci[key],
       );
 
       const printObj = JSON.stringify({
         Method: method,
-        Path: controllerPrefix + apiPath,
+        Path: apiFullPath,
         Middlewares: attachMiddleware.map(i => i.name).join(','),
         Permission: (routerPermission && routerPermission.name) || 'none',
       });

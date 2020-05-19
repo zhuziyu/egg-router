@@ -1,8 +1,8 @@
 import { permissionKey } from '../metaKeys';
 
 interface IPermission {
-  name: string;
-  api?: string;
+  roles: string;
+  name?: string;
   group?: string;
   groupName?: string;
 }
