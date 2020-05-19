@@ -9,8 +9,6 @@ import { getPermission, getPermissionGroup } from './decorators/permission';
 import * as KoaRouter from '@koa/router';
 import * as Koa from 'koa';
 
-const router = new KoaRouter();
-
 interface RouterHandleOptions {
   controllerDir: string;
   app: Koa;
@@ -28,6 +26,8 @@ export const RouterHandle = ({
   permissionMiddleware,
   permissionList,
 }: RouterHandleOptions) => {
+
+  const router = new KoaRouter();
 
   if (Array.isArray(useMiddleware)) {
     router.use(...useMiddleware);
