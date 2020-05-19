@@ -5,8 +5,7 @@ import loadController from '../util/loadController';
 import { getRouterConf } from './decorators/httpMapping';
 import { getPrefix } from './decorators/controllerPrefix';
 import { getUseMiddleware } from './decorators/middleware';
-import { getPermission } from './decorators/permission';
-// import { getDefineParam } from './decorators/httpParam';
+import { getPermission, getPermissionGroup } from './decorators/permission';
 import * as KoaRouter from '@koa/router';
 import * as Koa from 'koa';
 
@@ -21,7 +20,6 @@ interface RouterHandleOptions {
   permissionList?: any[];
 }
 
-// controllerDir: string, app: Koa, useMiddleware: any[] = [], logging: ((...args) => void) = console.debug
 export const RouterHandle = ({
   controllerDir,
   app,
@@ -45,6 +43,8 @@ export const RouterHandle = ({
     const ci = new controller();
 
     const controllerPrefix = getPrefix(controller);
+    const { group: cGroup = controller.name, name: cGroupName = controller.name } = getPermissionGroup(controller);
+
     // logging(`[${controller.name}-PREFIX]`, controllerPrefix);
     // 遍历controller的所有成员
     for (const key in controller.prototype) {
@@ -80,9 +80,9 @@ export const RouterHandle = ({
 
         if (!permissionList) continue;
 
-        const { roles, name, group = controller.name, groupName } = routerPermission;
+        const { roles, name } = routerPermission;
 
-        permissionList.push({ roles, name: name || roles, group, api: apiFullPath, groupName: groupName || group });
+        permissionList.push({ roles, name: name || roles, group: cGroup, api: apiFullPath, groupName: cGroupName });
       }
 
       router[method](
