@@ -4,20 +4,22 @@
 import 'reflect-metadata';
 
 import { Get, Post, Put, Delete, Head, Options, Patch, All } from './lib/decorators/httpMapping';
-import { Body, Query, Params } from './lib/decorators/httpParam';
+// import { Body, Query, Params } from './lib/decorators/httpParam';
 import { Use } from './lib/decorators/middleware';
 import { Prefix } from './lib/decorators/controllerPrefix';
 import { RouterHandle } from './lib/routerHandle';
+import { Permission } from './lib/decorators/permission';
 
-import { ApiOptionProperty, ApiProperty } from './apidoc/decorators/api-property';
-import { ApiDescription, ApiTitle, ApiSuccessExample } from './apidoc/decorators/api';
+// import { ApiOptionProperty, ApiProperty } from './apidoc/decorators/api-property';
+// import { ApiDescription, ApiTitle, ApiSuccessExample } from './apidoc/decorators/api';
 
 export {
   RouterHandle,
   Prefix,
   Use,
   Get, Post, Put, Delete, Head, Options, Patch, All,
-  Body, Query, Params,
-  ApiOptionProperty, ApiProperty,
-  ApiDescription, ApiTitle, ApiSuccessExample,
+  Permission,
+  // Body, Query, Params,
+  // ApiOptionProperty, ApiProperty,
+  // ApiDescription, ApiTitle, ApiSuccessExample,
 };

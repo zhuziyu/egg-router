@@ -9,6 +9,8 @@ export const middlewareKey = Symbol('Decorator#middleware');
 
 export const paramKey = Symbol('Decorator#param');
 
+export const permissionKey = Symbol('Decorator#permissionKey');
+
 export const DesignType = 'design:type';
 export const DesignParamTypes = 'design:paramtypes';
 export const DesignReturnType = 'design:returntype';

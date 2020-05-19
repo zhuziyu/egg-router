@@ -3,7 +3,7 @@
  */
 import { middlewareKey } from '../metaKeys';
 
-export function getUseMiddleware(target: any, propertyKey: string): string[] {
+export function getUseMiddleware(target: any, propertyKey: string): any[] {
   return Reflect.getMetadata(middlewareKey, target, propertyKey) || [];
 }
 

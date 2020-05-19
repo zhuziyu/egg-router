@@ -5,14 +5,29 @@ import loadController from '../util/loadController';
 import { getRouterConf } from './decorators/httpMapping';
 import { getPrefix } from './decorators/controllerPrefix';
 import { getUseMiddleware } from './decorators/middleware';
+import { getPermission } from './decorators/permission';
 // import { getDefineParam } from './decorators/httpParam';
 import * as KoaRouter from '@koa/router';
 import * as Koa from 'koa';
 
 const router = new KoaRouter();
 
+interface RouterHandleOptions {
+  controllerDir: string;
+  app: Koa;
+  useMiddleware?: any[];
+  logging?: (...args) => void;
+  permissionMiddleware?: (permission) => ((ctx, next) => void);
+}
 
-export const RouterHandle = (controllerDir: string, app: Koa, useMiddleware: any[] = [], logging: ((...args) => void) = console.debug) => {
+// controllerDir: string, app: Koa, useMiddleware: any[] = [], logging: ((...args) => void) = console.debug
+export const RouterHandle = ({
+  controllerDir,
+  app,
+  useMiddleware = [],
+  logging = console.debug,
+  permissionMiddleware,
+}: RouterHandleOptions) => {
 
   if (Array.isArray(useMiddleware)) {
     router.use(...useMiddleware);
@@ -28,7 +43,7 @@ export const RouterHandle = (controllerDir: string, app: Koa, useMiddleware: any
     const ci = new controller();
 
     const controllerPrefix = getPrefix(controller);
-    logging(`[${controller.name}-PREFIX]`, controllerPrefix);
+    // logging(`[${controller.name}-PREFIX]`, controllerPrefix);
     // 遍历controller的所有成员
     for (const key in controller.prototype) {
       if (!controller.prototype.hasOwnProperty(key)) {
@@ -40,23 +55,38 @@ export const RouterHandle = (controllerDir: string, app: Koa, useMiddleware: any
 
       const attachMiddleware: any[] = getUseMiddleware(controller.prototype, key);
       const routerConfig = getRouterConf(controller.prototype, key);
+      const routerPermission = getPermission(controller.prototype, key);
       // const needParams = getDefineParam(controller.prototype, key);
 
-      logging(`[${controller.name}-ROUTER-${key}]`, routerConfig);
-      logging(`[${controller.name}-MD-${key}]`, attachMiddleware.map(i => i.name).join(','));
-      // logging(`[${controller.name}-PA-${key}]`, needParams);
+      // logging(`[${controller.name}-ROUTER-${key}]`, routerConfig);
+      // logging(`[${controller.name}-MD-${key}]`, attachMiddleware.map(i => i.name).join(','));
+      // logging(`[${controller.name}-PM-${key}]`, routerPermission);
 
       if (!routerConfig) {
         continue;
       }
 
-      const { method, path: apiPath } = routerConfig;
+      if (routerPermission && routerPermission.name) {
+        if (typeof permissionMiddleware !== 'function') {
+          return logging('[RouterMapping] [WARNING] 权限验证的中间件配置有误，请检查');
+        }
+        attachMiddleware.unshift(permissionMiddleware(routerPermission.name));
+      }
 
+      const { method, path: apiPath } = routerConfig;
       router[method](
         controllerPrefix + apiPath,
         ...attachMiddleware,
         ci[key],
       );
+
+      const printObj = JSON.stringify({
+        Method: method,
+        Path: controllerPrefix + apiPath,
+        Middlewares: attachMiddleware.map(i => i.name).join(','),
+        Permission: (routerPermission && routerPermission.name) || 'none',
+      });
+      logging('[RouterMapping]', printObj);
 
       // logging(`[Maping] [MW: ${attachMiddleware.map(i => i.name).join(',')}] [${method}]  [${controllerPrefix + apiPath}]`);
 
