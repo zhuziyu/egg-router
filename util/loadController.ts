@@ -1,12 +1,12 @@
 /**
  * Created by 清辉 on 2020/1/14 12:00
  */
-import { promises as fs } from 'fs';
+import * as fs from 'fs';
 import * as path from 'path';
 
-export default async function(baseDir: string) {
+export default function(baseDir: string) {
 
-  let files = await fs.readdir(path.join(baseDir, './app/controller'));
+  let files = fs.readdirSync(path.join(baseDir, './app/controller'));
   files = files.map(file => {
     const fileAry = file.split('.');
     fileAry.pop();
@@ -20,7 +20,8 @@ export default async function(baseDir: string) {
   const controllers: any[] = [];
 
   for (const file of uniqFiles) {
-    const exportObj = await import(path.join(baseDir, './app/controller', file));
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const exportObj = require(path.join(baseDir, './app/controller', file));
     controllers.push(exportObj.default);
   }
   return controllers;

@@ -74,12 +74,12 @@ function calculateMiddleware(attachMiddleware: string[], app: Application): any[
 }
 
 
-export const RouterHandle = async (app: Application) => {
+export const RouterHandle = (app: Application) => {
 
   const { router } = app;
 
   // 加载所有controller类
-  const controllers = await loadController(app.config.baseDir);
+  const controllers = loadController(app.config.baseDir);
   for (const controller of controllers) {
 
 
