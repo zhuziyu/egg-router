@@ -6,7 +6,7 @@
     "clean": "ets clean && rimraf dist",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "postbuild": "cp package.json ./dist"
+    "postbuild": "cp package.json readme.md ./dist"
   },
   "repository": {
     "type": "git",
