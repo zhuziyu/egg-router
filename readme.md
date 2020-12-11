@@ -1,13 +1,13 @@
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-img]][travis-url]
 
-[npm-image]: https://img.shields.io/npm/v/@zhuziyu/egg-router.svg?style=flat-square  
-[npm-url]: https://www.npmjs.com/package/@zhuziyu/egg-router
+[npm-image]: https://img.shields.io/npm/v/egg-router-util.svg?style=flat-square  
+[npm-url]: https://www.npmjs.com/package/egg-router-util
 
 [travis-img]: https://api.travis-ci.com/zhuziyu/egg-router.svg?branch=master
 [travis-url]: https://travis-ci.com/zhuziyu/egg-router
 
 
-🥚 egg router decorator util -> simple way to define api router and generate apidoc 
+🥚 egg router decorator util -> simple way to define api router
 
 !! Warning： this package only support typescript.
 
