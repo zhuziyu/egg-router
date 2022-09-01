@@ -1,6 +1,6 @@
 {
   "name": "egg-router-util",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "egg router decorator util -> simple way to define api router",
   "scripts": {
     "clean": "tsc -b --clean && rimraf dist",

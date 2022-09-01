@@ -8,7 +8,7 @@ import { getPrefix } from './decorators/controllerPrefix';
 import { getUseMiddleware } from './decorators/middleware';
 import { getDefineParam } from './decorators/httpParam';
 
-import { ScanFinish, Scanner } from '../apidoc/scanner';
+// import { ScanFinish, Scanner } from '../apidoc/scanner';
 
 function calculateParams(needParams, ctx: Context) {
   const params: any[] = Array(needParams.length);
@@ -99,7 +99,7 @@ export const RouterHandle = (app: Application) => {
       const needParams = getDefineParam(controller.prototype, key);
 
       // TODO Developing
-      Scanner(controller, key, routerConfig, needParams);
+      // Scanner(controller, key, routerConfig, needParams);
 
       app.logger.debug(`[${controller.name}-ROUTER-${key}]`, routerConfig);
       app.logger.debug(`[${controller.name}-MD-${key}]`, attachMiddleware);
@@ -116,5 +116,5 @@ export const RouterHandle = (app: Application) => {
     }
   }
 
-  ScanFinish();
+  // ScanFinish();
 };
